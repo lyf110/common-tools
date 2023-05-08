@@ -30,8 +30,8 @@ public final class StringUtil {
      * @param str 字符串
      * @return 字符串是否为空，true：为空，false：不为空
      */
-    public static boolean isEmpty(String str) {
-        return str == null || str.isEmpty();
+    public static boolean isEmpty(CharSequence str) {
+        return str == null || str.length() == 0;
     }
 
     /**
@@ -40,7 +40,7 @@ public final class StringUtil {
      * @param str 字符串
      * @return 字符串是否不为空，true：不为空，false：为空
      */
-    public static boolean isNotEmpty(String str) {
+    public static boolean isNotEmpty(CharSequence str) {
         return !isEmpty(str);
     }
 
@@ -141,5 +141,23 @@ public final class StringUtil {
      */
     public static String format(String template, Object... values) {
         return StrUtil.format(template, values);
+    }
+
+    /**
+     * 去除字符串中所有的空格
+     */
+    public static String trimAllWhitespace(String str) {
+        if (isEmpty(str)) {
+            return str;
+        }
+        int len = str.length();
+        StringBuilder sb = new StringBuilder(str.length());
+        for (int i = 0; i < len; i++) {
+            char c = str.charAt(i);
+            if (!Character.isWhitespace(c)) {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
     }
 }

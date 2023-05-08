@@ -29,6 +29,26 @@ public final class ArrayUtil {
         return obj != null && obj.getClass().isArray();
     }
 
+    /**
+     * 判断数组是否为空
+     *
+     * @param obj 数组对象
+     * @return true: 为空, false不为空
+     */
+    public static boolean isEmpty(Object obj) {
+        return obj == null || (isArray(obj) && Array.getLength(obj) == 0);
+    }
+
+    /**
+     * 判断数组是否为空
+     *
+     * @param obj 数组对象
+     * @return true: 为空, false不为空
+     */
+    public static boolean isNotEmpty(Object obj) {
+        return !isEmpty(obj);
+    }
+
 
     /**
      * 判断一个对象是否不是数组
@@ -85,7 +105,6 @@ public final class ArrayUtil {
             return newArray;
         }
     }
-
 
     /**
      * 将对象转成Object数组
