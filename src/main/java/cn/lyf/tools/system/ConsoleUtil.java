@@ -5,11 +5,8 @@ import cn.lyf.tools.str.ObjectUtil;
 import cn.lyf.tools.str.StringUtil;
 
 import java.io.PrintStream;
-import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static java.lang.System.err;
 import static java.lang.System.out;
@@ -21,12 +18,8 @@ import static java.lang.System.out;
  */
 public final class ConsoleUtil {
     private static final String TEMPLATE_VAR = "{}";
-    private static final String TEMPLATE_PATTERN = "\\{}";
-    private static final Pattern PATTERN = Pattern.compile(TEMPLATE_PATTERN);
-    private static final String NULL_VALUE = "null";
 
     private ConsoleUtil() {
-
     }
 
     /**
@@ -186,33 +179,7 @@ public final class ConsoleUtil {
     }
 
     private static void handlerLogMessage(PrintStream printStream, String template, Object... values) {
-        boolean isValuesEmpty = ObjectUtil.isEmpty(values);
-        if (StringUtil.isEmpty(template)) {
-            println(printStream);
-            return;
-        }
-
-        if (template.contains(TEMPLATE_VAR)) {
-            if (isValuesEmpty) {
-                println(printStream, template);
-            } else {
-                Matcher matcher = PATTERN.matcher(template);
-                int count = 0;
-                StringBuffer stringBuffer = new StringBuffer();
-                while (matcher.find()) {
-                    if (count >= values.length) {
-                        break;
-                    }
-                    Object value = values[count];
-                    matcher.appendReplacement(stringBuffer, value == null ? NULL_VALUE : value.toString());
-                    count++;
-                }
-                matcher.appendTail(stringBuffer);
-                println(printStream, stringBuffer.toString());
-            }
-        } else {
-            println(printStream, template);
-        }
+        println(printStream, StringUtil.format(template, values));
     }
 
     /**

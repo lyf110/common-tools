@@ -1,9 +1,13 @@
 package cn.lyf.tools.str;
 
 
+import cn.hutool.core.util.StrUtil;
+import cn.lyf.tools.system.ConsoleUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author lyf
@@ -12,6 +16,10 @@ import java.util.Locale;
  */
 @Slf4j
 public final class StringUtil {
+    private static final String TEMPLATE_VAR = "{}";
+    private static final String TEMPLATE_PATTERN = "\\{}";
+    private static final Pattern PATTERN = Pattern.compile(TEMPLATE_PATTERN);
+    private static final String NULL_VALUE = "null";
 
     private StringUtil() {
     }
@@ -122,5 +130,16 @@ public final class StringUtil {
      */
     public static boolean isNotContains(String parentStr, String childStr) {
         return !isContains(parentStr, childStr);
+    }
+
+    /**
+     * 解析字符串中的{}
+     *
+     * @param template 模板字符串
+     * @param values   {}对应的参数
+     * @return {} 处理后的字符串
+     */
+    public static String format(String template, Object... values) {
+        return StrUtil.format(template, values);
     }
 }

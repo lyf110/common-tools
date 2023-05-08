@@ -1,6 +1,8 @@
 package cn.lyf.tools.system;
 
 
+import cn.lyf.tools.str.StringUtil;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -143,6 +145,35 @@ public final class ClassUtil {
      */
     public static boolean isNotInstanceOf(Object source, Class<?> clazz) {
         return !isInstanceOf(source, clazz);
+    }
+
+    /**
+     * 根据类型获取对应的对象
+     *
+     * @param obj   对象
+     * @param clazz 对象的具体类型的class对象
+     * @param <T>   对象额度具体类型
+     * @return T 类型的实例对象
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T getObjectByType(Object obj, Class<T> clazz) {
+        // 对象为空则直接返回空
+        if (obj == null) {
+            return null;
+        }
+
+        // 传入的clazz对象为空的话，则直接抛出异常
+        if (clazz == null) {
+            throw new IllegalArgumentException("clazz not null");
+        }
+
+        // 类型检查
+        if (ClassUtil.isInstanceOf(obj, clazz)) {
+            throw new IllegalArgumentException(StringUtil.format("{} can not cast to {}", obj.getClass(), clazz));
+        }
+
+        // 类型转换
+        return (T) clazz;
     }
 
 //    public static void main(String[] args) {
